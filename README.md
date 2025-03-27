@@ -8,7 +8,9 @@ Central banks aim to stabilize inflation and output fluctuations using monetary 
 
 ## Problem Setup
 
-Economic Dynamics. We consider a simple New Keynesian model, where the economy is described by a Phillips curve and IS curve. In particular,
+### Economic Dynamics
+
+We consider a simple New Keynesian model, where the economy is described by a Phillips curve and IS curve. In particular,
 
 $$
 \begin{align*}
@@ -19,7 +21,7 @@ $$
 
 where (1) is the New Keynesian Phillips curve and (2) is the IS curve. In these equations, $\pi_{t}$ denotes inflation, $x_{t}$ output gap, $i_{t}$ nominal interest rate (policy instrument), $u_{t}$ cost-push shock, $r_{t}^{n}$ demand shock, $\beta$ discount factor, $\kappa$ slope of the Phillips curve, $\sigma$ sensitivity to the real interest rate.
 
-Assume that $u_{t}$ and $r_{t}^{n}$ follow the following $\operatorname{AR}(1)$ process:
+Assume that $u_{t}$ and $r_{t}^{n}$ follow the following AR(1) process:
 
 $$
 \begin{align*}
@@ -28,9 +30,11 @@ r_{t}^{n} & =\rho_{r} r_{t-1}^{n}+\sigma_{r} \varepsilon_{r t} \tag{4}
 \end{align*}
 $$
 
-where $\varepsilon_{u t} \sim N(0,1)$ and $\varepsilon_{r t} \sim N(0,1)$
+where $\varepsilon_{u t} \sim N(0,1)$ and $\varepsilon_{r t} \sim N(0,1)$.
 
-Central Bank's Policy Rule. The central bank sets interest rate via the Taylor rule, which takes the following form:
+### Central Bank's Policy Rule
+
+The central bank sets interest rate via the Taylor rule, which takes the following form:
 
 $$
 \begin{equation*}
@@ -50,7 +54,9 @@ $\varepsilon_{\nu t} \sim N(0,1)$ is the monetary policy surprise/shock.
 
 ## Model Solution
 
-Solve the Model. The Rational Expectations equilibrium for this model can be solved as follows. Conjecture a model solution where the output is linear in the state comprised of three shocks $\left(u_{t}, r_{t}^{n}, \nu_{t}\right):$
+### Solve the Model
+
+The Rational Expectations equilibrium for this model can be solved as follows. Conjecture a model solution where the output is linear in the state comprised of three shocks $\left(u_{t}, r_{t}^{n}, \nu_{t}\right):$
 
 $$
 \left[\begin{array}{c}
@@ -65,7 +71,7 @@ i_{t}
 u_{t} \\
 r_{t}^{n} \\
 \nu_{t}
-\end{array}\right] .
+\end{array}\right].
 $$
 
 With (7), we can write the one-period-ahead expectations accordingly:
@@ -78,16 +84,23 @@ $$
 \end{align*}
 $$
 
-To solve for $P$, we can substitute items in (1), (2) and (5) with (7) and (8)-(10) and solve $P$ using the method of undetermined coefficients. In particular, for (1):
+To solve for $P$, we can substitute items in (1), (2) and (5) with (7) and (8)-(10) and solve $P$ using the method of undetermined coefficients.
+
+From (1):
 
 $$
-\gamma_{\pi}^{u} u_{t}+\gamma_{\pi}^{r} r_{t}^{n}+\gamma_{\pi}^{\nu} \nu_{t}=\beta\left(\gamma_{\pi}^{u} \rho_{u} u_{t}+\gamma_{\pi}^{r} \rho_{r} r_{t}^{n}+\gamma_{\pi}^{\nu} \rho_{\nu} \nu_{t}\right)+\kappa\left(\gamma_{x}^{u} u_{t}+\gamma_{x}^{r} r_{t}^{n}+\gamma_{x}^{\nu} \nu_{t}\right)+u_{t},
+\gamma_{\pi}^{u} u_{t}+\gamma_{\pi}^{r} r_{t}^{n}+\gamma_{\pi}^{\nu} \nu_{t}
+=\beta\left(\gamma_{\pi}^{u} \rho_{u} u_{t}+\gamma_{\pi}^{r} \rho_{r} r_{t}^{n}+\gamma_{\pi}^{\nu} \rho_{\nu} \nu_{t}\right)
++\kappa\left(\gamma_{x}^{u} u_{t}+\gamma_{x}^{r} r_{t}^{n}+\gamma_{x}^{\nu} \nu_{t}\right)
++u_{t},
 $$
 
 collecting items and re-arranging:
 
 $$
-\left(\gamma_{\pi}^{u}-\beta \gamma_{\pi}^{u} \rho_{u}-\kappa \gamma_{x}^{u}-1\right) u_{t}+\left(\gamma_{\pi}^{r}-\beta \gamma_{\pi}^{r} \rho_{r}-\kappa \gamma_{x}^{r}\right) r_{t}^{n}+\left(\gamma_{\pi}^{\nu}-\beta \gamma_{\pi}^{\nu} \rho_{\nu}-\kappa \gamma_{x}^{\nu}\right) \nu_{t}=0
+\left(\gamma_{\pi}^{u}-\beta \gamma_{\pi}^{u} \rho_{u}-\kappa \gamma_{x}^{u}-1\right) u_{t}
++\left(\gamma_{\pi}^{r}-\beta \gamma_{\pi}^{r} \rho_{r}-\kappa \gamma_{x}^{r}\right) r_{t}^{n}
++\left(\gamma_{\pi}^{\nu}-\beta \gamma_{\pi}^{\nu} \rho_{\nu}-\kappa \gamma_{x}^{\nu}\right) \nu_{t}=0
 $$
 
 This implies that
@@ -100,12 +113,15 @@ $$
 \end{align*}
 $$
 
-Similarly, for (2)
+From (2):
 
 $$
 \begin{aligned}
-\gamma_{x}^{u} u_{t}+\gamma_{x}^{r} r_{t}^{n}+\gamma_{x}^{\nu} \nu_{t} & =\left(\gamma_{x}^{u} \rho_{u} u_{t}+\gamma_{x}^{r} \rho_{r} r_{t}^{n}+\gamma_{x}^{\nu} \rho_{\nu} \nu_{t}\right) \\
-& -\sigma\left[\left(\gamma_{i}^{u} u_{t}+\gamma_{i}^{r} r_{t}^{n}+\gamma_{i}^{\nu} \nu_{t}\right)-\left(\gamma_{\pi}^{u} \rho_{u} u_{t}+\gamma_{\pi}^{r} \rho_{r} r_{t}^{n}+\gamma_{\pi}^{\nu} \rho_{\nu} \nu_{t}\right)-r_{t}^{n}\right]
+\gamma_{x}^{u} u_{t}+\gamma_{x}^{r} r_{t}^{n}+\gamma_{x}^{\nu} \nu_{t}
+&=\left(\gamma_{x}^{u} \rho_{u} u_{t}+\gamma_{x}^{r} \rho_{r} r_{t}^{n}+\gamma_{x}^{\nu} \rho_{\nu} \nu_{t}\right) \\
+&\quad -\sigma\left[\left(\gamma_{i}^{u} u_{t}+\gamma_{i}^{r} r_{t}^{n}+\gamma_{i}^{\nu} \nu_{t}\right)
+-\left(\gamma_{\pi}^{u} \rho_{u} u_{t}+\gamma_{\pi}^{r} \rho_{r} r_{t}^{n}+\gamma_{\pi}^{\nu} \rho_{\nu} \nu_{t}\right)
+-r_{t}^{n}\right]
 \end{aligned}
 $$
 
@@ -119,10 +135,13 @@ $$
 \end{align*}
 $$
 
-For (5):
+From (5):
 
 $$
-\gamma_{i}^{u} u_{t}+\gamma_{i}^{r} r_{t}^{n}+\gamma_{i}^{\nu} \nu_{t}=\phi_{\pi}\left(\gamma_{\pi}^{u} u_{t}+\gamma_{\pi}^{r} r_{t}^{n}+\gamma_{\pi}^{\nu} \nu_{t}\right)+\phi_{x}\left(\gamma_{x}^{u} u_{t}+\gamma_{x}^{r} r_{t}^{n}+\gamma_{x}^{\nu} \nu_{t}\right)+\nu_{t}
+\gamma_{i}^{u} u_{t}+\gamma_{i}^{r} r_{t}^{n}+\gamma_{i}^{\nu} \nu_{t}
+=\phi_{\pi}\left(\gamma_{\pi}^{u} u_{t}+\gamma_{\pi}^{r} r_{t}^{n}+\gamma_{\pi}^{\nu} \nu_{t}\right)
++\phi_{x}\left(\gamma_{x}^{u} u_{t}+\gamma_{x}^{r} r_{t}^{n}+\gamma_{x}^{\nu} \nu_{t}\right)
++\nu_{t}
 $$
 
 So we have
@@ -135,7 +154,7 @@ $$
 \end{align*}
 $$
 
-Note that in the system of equations (11) through (19), there are 9 equations with 9 unknowns in the matrix $P$ :
+Note that in the system of equations (11) through (19), there are 9 equations with 9 unknowns in the matrix $P$:
 
 $$
 P=\left[\begin{array}{lll}
@@ -147,7 +166,9 @@ $$
 
 which can be easily solved using matrix inversion.
 
-State-Space Form. With $P$, the model is characterized by a linear state-space system with the measurement equation
+### State-Space Form
+
+With $P$, the model is characterized by a linear state-space system with the measurement equation
 
 $$
 \left[\begin{array}{c}
@@ -164,40 +185,46 @@ $$
 and the transition equation
 
 $$
-\left[\begin{array}{l}
-u_{t}  \tag{21}\\
-r_{t}^{n} \\
-\nu_{t}
-\end{array}\right]=\left[\begin{array}{ccc}
-\rho_{u} & 0 & 0 \\
-0 & \rho_{r} & 0 \\
-0 & 0 & \rho_{\nu}
-\end{array}\right]\left[\begin{array}{l}
-u_{t-1} \\
-r_{t-1}^{n} \\
-\nu_{t-1}
-\end{array}\right]+\left[\begin{array}{ccc}
-\sigma_{u} & 0 & 0 \\
-0 & \sigma_{r} & 0 \\
-0 & 0 & \sigma_{\nu}
-\end{array}\right]\left[\begin{array}{l}
-\varepsilon_{u t} \\
-\varepsilon_{r t} \\
-\varepsilon_{\nu t}
-\end{array}\right] .
+    \left[\begin{array}{l}
+    u_{t}  \tag{21}\\
+    r_{t}^{n} \\
+    \nu_{t}
+    \end{array}\right]
+    =
+    \left[\begin{array}{ccc}
+    \rho_{u} & 0 & 0 \\
+    0 & \rho_{r} & 0 \\
+    0 & 0 & \rho_{\nu}
+    \end{array}\right]
+    \left[\begin{array}{l}
+    u_{t-1} \\
+    r_{t-1}^{n} \\
+    \nu_{t-1}
+    \end{array}\right]
+    +
+    \left[\begin{array}{ccc}
+    \sigma_{u} & 0 & 0 \\
+    0 & \sigma_{r} & 0 \\
+    0 & 0 & \sigma_{\nu}
+    \end{array}\right]
+    \left[\begin{array}{l}
+    \varepsilon_{u t} \\
+    \varepsilon_{r t} \\
+    \varepsilon_{\nu t}
+    \end{array}\right].
 $$
 
 ## Parameters
 
 In the benchmark analysis, use the following calibrated parameters that are taken from the literature.
 
-| Parameter | Value |
-| :---: | :---: |
-| $\beta$ | 0.99 |
-| $\sigma$ | $1 / 6$ |
-| $\kappa$ | 0.024 |
-| $\rho_{r}$ | 0.35 |
-| $\rho_{u}$ | 0.35 |
+| Parameter | Value  |
+|:--------:|:------:|
+| $\beta$   | 0.99   |
+| $\sigma$  | $1 / 6$ |
+| $\kappa$  | 0.024  |
+| $\rho_{r}$ | 0.35  |
+| $\rho_{u}$ | 0.35  |
 | $\rho_{\nu}$ | 0.35 |
 | $\sigma_{r}$ | 3.7 |
 | $\sigma_{u}$ | 0.4 |
