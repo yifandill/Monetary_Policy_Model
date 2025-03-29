@@ -130,8 +130,13 @@ $$
     \end{array}\right].
 $$
 
-## Main Problems to Address
+### Main Problems to Address
 
 - Solve $P$ and formulate the model solutions as a linear state space system.
 - Plot and discuss the dynamic responses of $\pi_{t+i}, x_{t+i}, i_{t+i}$ to a one standard deviation change in economic shocks $\varepsilon_{r t}, \varepsilon_{u t}$ and the monetary policy shock $\varepsilon_{\nu t}$.
 - Investigate how the results would change if we change $\kappa, \rho_{u}, \rho_{r}, \phi_{\pi}, \phi_{x}$. Discuss your results.
+
+## Codes in `src` directory
+
+- `config.py`: store some path variables and benchmark parameters.
+- `model.py`: functions to solve matrix P and formulate a linear state space system.

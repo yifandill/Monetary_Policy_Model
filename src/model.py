@@ -1,5 +1,6 @@
 import jax.numpy as jnp
 from jax import jit
+from scipy.stats import norm
 
 @jit
 def solve_P(
@@ -45,6 +46,31 @@ def solve_P(
     # Reshape x into a 3x3 matrix (column-major order)
     P = x.reshape((3, 3), order='F')
     return P
+
+
+def transition(
+    prev_shock: jnp.ndarray,
+    rho_u: float,
+    rho_r: float,
+    rho_nu: float,
+    sigma_r: float,
+    sigma_u: float,
+    sigma_nu: float
+) -> jnp.ndarray:
+    # Transition matrix
+    F = jnp.diag([rho_u, rho_r, rho_nu])
+
+    # Shock/loading matrix
+    G = jnp.diag([sigma_u, sigma_r, sigma_nu])
+
+    noise = norm.rvs(size=3)
+    current_shock = F @ prev_shock + G @ noise
+
+    return current_shock
+
+
+def measurement(P: jnp.ndarray, shock: jnp.ndarray) -> jnp.ndarray:
+    return P @ shock
 
 
 if __name__ == "__main__":
