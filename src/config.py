@@ -20,5 +20,6 @@ benchmark_dict = {
     'rho_nu': 0.35,
     'sigma_r': 3.7,
     'sigma_u': 0.4,
-    'sigma_nu': 1
+    'sigma_nu': 1,
+    'seed': 0
 }
