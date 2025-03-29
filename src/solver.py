@@ -1,35 +1,49 @@
-import numpy as np
+import jax.numpy as jnp
+from jax import jit
 
-
-def solve_P(beta, sigma, kappa, phi_pi, phi_x, rho_u, rho_r, rho_nu, sigma_r, sigma_u, sigma_nu):
+@jit
+def solve_P(
+    beta: float,
+    sigma: float,
+    kappa: float,
+    phi_pi: float,
+    phi_x: float,
+    rho_u: float,
+    rho_r: float,
+    rho_nu: float,
+    sigma_r: float,
+    sigma_u: float,
+    sigma_nu: float
+) -> jnp.ndarray:
     """
-    Solve for the matrix P given a dictionary of parameters.
-    Returns the 3x3 matrix P.
+    Solve for the 3x3 matrix P using JAX for potential acceleration through JIT.
+
+    Returns:
+        jnp.ndarray: A 3x3 matrix P.
     """
-    # Build the 9x9 matrix A
-    A = np.array([
-        [1 - beta * rho_u,     -kappa,            0,                 0,                0,     0,                 0,     0,     0],
-        [0,                    0,                 0,                 1 - beta * rho_r, -kappa,0,                 0,     0,     0],
-        [0,                    0,                 0,                 0,                0,     0, 1 - beta * rho_nu, -kappa, 0],
+    # Construct the 9x9 coefficient matrix A using jnp
+    A = jnp.array([
+        [1 - beta * rho_u,     -kappa,             0,                 0,               0,     0,                 0,     0,     0],
+        [0,                    0,                  0,                 1 - beta * rho_r,-kappa,0,                 0,     0,     0],
+        [0,                    0,                  0,                 0,               0,     0, 1 - beta * rho_nu, -kappa, 0],
         
-        [sigma * rho_u,        rho_u - 1,        -sigma,             0,                0,     0,                 0,     0,     0],
-        [0,                    0,                 0,                 sigma * rho_r,    rho_r - 1, -sigma,        0,     0,     0],
-        [0,                    0,                 0,                 0,                0,     0, sigma * rho_nu, rho_nu - 1, -sigma],
+        [sigma * rho_u,        rho_u - 1,         -sigma,             0,               0,     0,                 0,     0,     0],
+        [0,                    0,                  0,                 sigma * rho_r,   rho_r - 1, -sigma,        0,     0,     0],
+        [0,                    0,                  0,                 0,               0,     0, sigma * rho_nu,  rho_nu - 1, -sigma],
         
-        [phi_pi,               phi_x,            -1,                 0,                0,     0,                 0,     0,     0],
-        [0,                    0,                 0,                 phi_pi,           phi_x,  -1,               0,     0,     0],
-        [0,                    0,                 0,                 0,                0,     0, phi_pi,         phi_x,  -1]
-    ])
+        [phi_pi,               phi_x,             -1,                 0,               0,     0,                 0,     0,     0],
+        [0,                    0,                  0,                 phi_pi,          phi_x,  -1,               0,     0,     0],
+        [0,                    0,                  0,                 0,               0,     0, phi_pi,         phi_x,  -1]
+    ], dtype=jnp.float32)
 
-    # Build the 9x1 vector b
-    b = np.array([1, 0, 0, 0, -sigma, 0, 0, 0, -1], dtype=float)
+    # Construct the 9x1 vector b using jnp
+    b = jnp.array([1, 0, 0, 0, -sigma, 0, 0, 0, -1], dtype=jnp.float32)
 
-    # Solve the system A x = b
-    x = np.linalg.solve(A, b)
+    # Solve the linear system A @ x = b
+    x = jnp.linalg.solve(A, b)
 
-    # Reshape the solution x into the 3x3 matrix P. Use order='F' so that the first 3 elements of x become the first column of P (consistent with "vec" stacking columns).
-    P = x.reshape(3, 3, order='F')
-
+    # Reshape x into a 3x3 matrix (column-major order)
+    P = x.reshape((3, 3), order='F')
     return P
 
 
