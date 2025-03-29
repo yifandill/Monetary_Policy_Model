@@ -53,7 +53,7 @@ $$
     \pi_{t}\\
     x_{t} \\
     i_{t}
-    \end{array}\right]= \mathbf{P} \left[\begin{array}{c}
+    \end{array}\right]= P \left[\begin{array}{c}
     u_{t} \\
     r_{t}^{n} \\
     \nu_{t}
@@ -67,63 +67,35 @@ $$
     \nu_{t}
     \end{array}\right].
 $$
-Solve the system of nine linear equations to get the matrix \mathbf{P}.
+Solve the system of nine linear equations to get the matrix P.
 $$
-    \begin{align*}
-        & \gamma_{\pi}^{u}=\beta \gamma_{\pi}^{u} \rho_{u}+\kappa \gamma_{x}^{u}+1\\
-        & \gamma_{\pi}^{r}=\beta \gamma_{\pi}^{r} \rho_{r}+\kappa \gamma_{x}^{r}\\
-        & \gamma_{\pi}^{\nu}=\beta \gamma_{\pi}^{\nu} \rho_{\nu}+\kappa \gamma_{x}^{\nu}\\
-        & \gamma_{x}^{u}=\gamma_{x}^{u} \rho_{u}-\sigma\left(\gamma_{i}^{u}-\gamma_{\pi}^{u} \rho_{u}\right)\\
-        & \gamma_{x}^{r}=\gamma_{x}^{r} \rho_{r}-\sigma\left(\gamma_{i}^{r}-\gamma_{\pi}^{r} \rho_{r}-1\right)\\
-        & \gamma_{x}^{\nu}=\gamma_{x}^{\nu} \rho_{\nu}-\sigma\left(\gamma_{i}^{\nu}-\gamma_{\pi}^{\nu} \rho_{\nu}\right)\\
-        & \gamma_{i}^{u}=\phi_{\pi} \gamma_{\pi}^{u}+\phi_{x} \gamma_{x}^{u}\\
-        & \gamma_{i}^{r}=\phi_{\pi} \gamma_{\pi}^{r}+\phi_{x} \gamma_{x}^{r}\\
-        & \gamma_{i}^{\nu}=\phi_{\pi} \gamma_{\pi}^{\nu}+\phi_{x} \gamma_{x}^{\nu}+1
-    \end{align*}
+\begin{align*}
+& \gamma_{\pi}^{u}=\beta \gamma_{\pi}^{u} \rho_{u}+\kappa \gamma_{x}^{u}+1\\
+& \gamma_{\pi}^{r}=\beta \gamma_{\pi}^{r} \rho_{r}+\kappa \gamma_{x}^{r}\\
+& \gamma_{\pi}^{\nu}=\beta \gamma_{\pi}^{\nu} \rho_{\nu}+\kappa \gamma_{x}^{\nu}\\
+& \gamma_{x}^{u}=\gamma_{x}^{u} \rho_{u}-\sigma\left(\gamma_{i}^{u}-\gamma_{\pi}^{u} \rho_{u}\right)\\
+& \gamma_{x}^{r}=\gamma_{x}^{r} \rho_{r}-\sigma\left(\gamma_{i}^{r}-\gamma_{\pi}^{r} \rho_{r}-1\right)\\
+& \gamma_{x}^{\nu}=\gamma_{x}^{\nu} \rho_{\nu}-\sigma\left(\gamma_{i}^{\nu}-\gamma_{\pi}^{\nu} \rho_{\nu}\right)\\
+& \gamma_{i}^{u}=\phi_{\pi} \gamma_{\pi}^{u}+\phi_{x} \gamma_{x}^{u}\\
+& \gamma_{i}^{r}=\phi_{\pi} \gamma_{\pi}^{r}+\phi_{x} \gamma_{x}^{r}\\
+& \gamma_{i}^{\nu}=\phi_{\pi} \gamma_{\pi}^{\nu}+\phi_{x} \gamma_{x}^{\nu}+1
+\end{align*}
 $$
-The system of linear equations can be packed into matrix form
-$$
-    \mathbf{A}\mathbf{x} = \mathbf{b},
-$$
-where $\mathbf{x} := \operatorname{vec}(\mathbf{P}) = \left[\gamma_{\pi}^u,\ \gamma_x^u,\ \gamma_i^u,\,
-\gamma_{\pi}^r,\ \gamma_x^r,\ \gamma_i^r,\,
-\gamma_{\pi}^{\nu},\ \gamma_x^{\nu},\ \gamma_i^{\nu}
-\right]^{\top},$
-$$
-\mathbf{A} = \left[
-\begin{array}{ccccccccc}
-     1-\beta \rho_u & -\kappa & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-     0 & 0 & 0 & 1-\beta \rho_r & -\kappa & 0 & 0 & 0 & 0 \\
-     0 & 0 & 0 & 0 & 0 & 0 & 1-\beta \rho_{\nu} & -\kappa & 0 \\
-     \sigma\rho_u & \rho_u-1 & -\sigma & 0 & 0 & 0 & 0 & 0 & 0 \\
-     0 & 0 & 0 & \sigma\rho_r & \rho_r-1 & -\sigma & 0 & 0 & 0 \\
-     0 & 0 & 0 & 0 & 0 & 0 & \sigma\rho_{\nu} & \rho_{\nu}-1 & -\sigma \\
-     \phi_{\pi} & \phi_x & -1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-     0 & 0 & 0 & \phi_{\pi} & \phi_x & -1 & 0 & 0 & 0 \\
-     0 & 0 & 0 & 0 & 0 & 0 & \phi_{\pi} & \phi_x & -1 \\
-\end{array}
-\right],\, \mathbf{b} = \left[
-\begin{array}{c}
-    1 \\ 0 \\ 0 \\ 0 \\ -\sigma \\ 0 \\ 0 \\ 0 \\ -1
-\end{array}
-\right].
-$$
-Hence, $\mathbf{P}$ can be easily solved using matrix inversion.
 
 ### State-Space Form
 
-With $\mathbf{P}$, the model is characterized by a linear state-space system with the measurement equation
+With $P$, the model is characterized by a linear state-space system with the measurement equation
 
 $$
-    \left[\begin{array}{c}
-    \pi_{t} \\
-    x_{t} \\
-    i_{t}
-    \end{array}\right]=\mathbf{P}\left[\begin{array}{c}
-    u_{t} \\
-    r_{t}^{n} \\
-    \nu_{t}
-    \end{array}\right],
+\left[\begin{array}{c}
+\pi_{t}\\
+x_{t} \\
+i_{t}
+\end{array}\right]=P\left[\begin{array}{c}
+u_{t} \\
+r_{t}^{n} \\
+\nu_{t}
+\end{array}\right],
 $$
 
 and the transition equation
@@ -160,6 +132,6 @@ $$
 
 ## Main Problems to Address
 
-- Solve $\mathbf{P}$ and formulate the model solutions as a linear state space system.
+- Solve $P$ and formulate the model solutions as a linear state space system.
 - Plot and discuss the dynamic responses of $\pi_{t+i}, x_{t+i}, i_{t+i}$ to a one standard deviation change in economic shocks $\varepsilon_{r t}, \varepsilon_{u t}$ and the monetary policy shock $\varepsilon_{\nu t}$.
 - Investigate how the results would change if we change $\kappa, \rho_{u}, \rho_{r}, \phi_{\pi}, \phi_{x}$. Discuss your results.
