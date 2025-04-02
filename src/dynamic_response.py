@@ -18,10 +18,11 @@ if __name__ == "__main__":
 
     # One std dev change of different shock at t=0
     t = 0
-    shock_index = 0     # 0 : u, 1 : r, 2 : nu.
+    shock_index = 0    # 0 : u, 1 : r, 2 : nu.
     std_dev_change = 1.0
     changed_shock = jnp.zeros(3, dtype=jnp.float32).at[shock_index].set(std_dev_change)
     shocks = jnp.zeros((T, 3), dtype=jnp.float32).at[t].set(changed_shock)  
+    #shocks = jnp.zeros((T, 3), dtype=jnp.float32).at[t].set(jnp.array([1.0, 1.0, 1.0], dtype=jnp.float32))
     
     shock_series = []
     measurement_series = []
@@ -42,9 +43,10 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(3, 1, figsize=(8, 10))
     labels = [r'$\pi_{t+i}$', r'$x_{t+i}$', r'$i_{t+i}$']
     shocks_name = [r'$ε_{u}$', r'$ε_{r}$', r'$ε_{v}$']
+    colors = ['orangered', 'violet', 'dodgerblue']
 
     for i in range(3):
-        axes[i].plot(range(T), measurement_series[:, i], marker='o', linestyle='-')
+        axes[i].plot(range(T), measurement_series[:, i], marker='o', linestyle='-', color=colors[i])
         axes[i].set_title(f'Response of {labels[i]} to a One Std Dev Change of {shocks_name[shock_index]}')
         axes[i].set_xlabel('Time')
         axes[i].set_ylabel(labels[i])
