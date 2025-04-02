@@ -1,6 +1,9 @@
 import functools
+import os
+os.environ["JAX_PLATFORMS"] = "cpu"
 import jax.numpy as jnp
 from jax import jit, random
+
 
 def _solve_P_jit(
     beta: float,
@@ -93,7 +96,7 @@ class MonetaryModel:
         )
 
     @functools.partial(jit, static_argnames=("self",))
-    def transition(self, prev_shock: jnp.ndarray) -> jnp.ndarray:
+    def transition(self, prev_shock: jnp.ndarray, shock_override: jnp.ndarray = None) -> jnp.ndarray:
         """
         Compute the next shock state using the transition matrix and random noise.
         
@@ -105,8 +108,13 @@ class MonetaryModel:
         """
         F = jnp.diag(jnp.array([self.rho_u, self.rho_r, self.rho_nu], dtype=jnp.float32))
         G = jnp.diag(jnp.array([self.sigma_u, self.sigma_r, self.sigma_nu], dtype=jnp.float32))
-        key = random.PRNGKey(self.seed)
-        noise = random.normal(key, shape=(3,))
+                
+        if shock_override is None:
+            key = random.PRNGKey(self.seed)
+            noise = random.normal(key, shape=(3,))
+        else:
+            noise = shock_override  # Manually override the shock
+        
         return F @ prev_shock + G @ noise
 
     @functools.partial(jit, static_argnames=("self",))
