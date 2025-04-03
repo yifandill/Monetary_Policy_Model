@@ -4,7 +4,6 @@ os.environ["JAX_PLATFORMS"] = "cpu"
 import jax.numpy as jnp
 from jax import jit, random
 
-
 def _solve_P_jit(
     beta: float,
     sigma: float,
@@ -80,33 +79,50 @@ class MonetaryModel:
         self.sigma_nu = sigma_nu
         self.seed = seed
 
-    def solve_P(self) -> jnp.ndarray:
+    def solve_P(self, 
+                kappa: float = None, 
+                phi_pi: float = None, 
+                phi_x: float = None,
+                rho_u: float = None,
+                rho_r: float = None,
+                ) -> jnp.ndarray:
         """
         Solve for the 3x3 matrix P by calling the standalone JIT-compiled function.
         """
         return _solve_P_jit(
             self.beta,
             self.sigma,
-            self.kappa,
-            self.phi_pi,
-            self.phi_x,
-            self.rho_u,
-            self.rho_r,
+            kappa if kappa is not None else self.kappa,
+            phi_pi if phi_pi is not None else self.phi_pi,
+            phi_x if phi_x is not None else self.phi_x,
+            rho_u if rho_u is not None else self.rho_u,
+            rho_r if rho_r is not None else self.rho_r,
             self.rho_nu
         )
 
     @functools.partial(jit, static_argnames=("self",))
-    def transition(self, prev_shock: jnp.ndarray, shock_override: jnp.ndarray = None) -> jnp.ndarray:
+    def transition(self, 
+                   prev_shock: jnp.ndarray, 
+                   shock_override: jnp.ndarray = None,
+                   rho_u: float = None,
+                   rho_r: float = None
+                   ) -> jnp.ndarray:
         """
         Compute the next shock state using the transition matrix and random noise.
         
         Args:
             prev_shock (jnp.ndarray): The previous shock vector.
+            rho_u (float): Optional override for rho_u.
+            rho_r (float): Optional override for rho_r.
         
         Returns:
             jnp.ndarray: The current shock vector after transition.
         """
-        F = jnp.diag(jnp.array([self.rho_u, self.rho_r, self.rho_nu], dtype=jnp.float32))
+        F = jnp.diag(jnp.array([
+            rho_u if rho_u is not None else self.rho_u,
+            rho_r if rho_r is not None else self.rho_r,
+            self.rho_nu
+        ], dtype=jnp.float32))
         G = jnp.diag(jnp.array([self.sigma_u, self.sigma_r, self.sigma_nu], dtype=jnp.float32))
                 
         if shock_override is None:

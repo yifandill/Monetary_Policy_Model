@@ -5,16 +5,14 @@ from jax import jit, random
 from model import MonetaryModel
 import matplotlib.pyplot as plt
 
-
 if __name__ == "__main__":
-    # Initialize model
     from config import benchmark_dict
-    model = MonetaryModel(**benchmark_dict)
-    P = model.solve_P()
+    model = MonetaryModel(**benchmark_dict)     # Initialize model
+    P = model.solve_P()    
+    #P = model.solve_P(kappa=0.5, , rho_r=0.8, rho_u=0.8phi_pi=5, phi_x=3)
 
-    # Example usage with a zero initial shock
-    T = 30  # Number of periods
-    prev_shock = jnp.zeros(3, dtype=jnp.float32)
+    T = 30      # Number of periods
+    prev_shock = jnp.zeros(3, dtype=jnp.float32)     # Example usage with a zero initial shock
 
     # One std dev change of different shock at t=0
     t = 0
@@ -23,19 +21,19 @@ if __name__ == "__main__":
     changed_shock = jnp.zeros(3, dtype=jnp.float32).at[shock_index].set(std_dev_change)
     shocks = jnp.zeros((T, 3), dtype=jnp.float32).at[t].set(changed_shock)  
     #shocks = jnp.zeros((T, 3), dtype=jnp.float32).at[t].set(jnp.array([1.0, 1.0, 1.0], dtype=jnp.float32))
-    
+
+    # Simulate for T periods
     shock_series = []
     measurement_series = []
 
-    # Simulate for T periods
     for t in range(T):
         current_shock = model.transition(prev_shock, shock_override=shocks[t])
+        #current_shock = model.transition(prev_shock, shock_override=shocks[t],rho_r=0.8, rho_u=0.8)
         measurement = model.measurement(P, current_shock)
         shock_series.append(current_shock)
         measurement_series.append(measurement)
         prev_shock = current_shock
 
-    # Convert results to numpy for plotting
     shock_series = jnp.array(shock_series)
     measurement_series = jnp.array(measurement_series)
 
