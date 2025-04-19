@@ -1,42 +1,5 @@
-import platform
-import os
-
-# Check conditions for setting JAX to use CPU only
-def configure_jax_platform():
-    # Case 1: Check if we're on iOS (which doesn't support GPU acceleration for JAX)
-    if platform.system() == "Darwin" and platform.machine().startswith(("arm", "iPhone")):
-        print("iOS/macOS ARM device detected. Setting JAX to use CPU only.")
-        os.environ["JAX_PLATFORMS"] = "cpu"
-        return True
-        
-    # Case 2: Try to detect if CUDA/GPU is available
-    try:
-        # We'll try to import jax first without setting the platform
-        import jax
-        devices = jax.devices()
-        
-        # If no GPU devices found, set to CPU
-        if all(d.platform == 'cpu' for d in devices):
-            print("No GPU devices detected. Setting JAX to use CPU only.")
-            os.environ["JAX_PLATFORMS"] = "cpu"
-            return True
-            
-        # GPU available, no need to change anything
-        print(f"GPU device(s) available: {[str(d) for d in devices]}")
-        return False
-        
-    except (ImportError, Exception) as e:
-        # If importing jax fails or any other error occurs, default to CPU
-        print(f"Error checking JAX devices: {e}. Setting JAX to use CPU only.")
-        os.environ["JAX_PLATFORMS"] = "cpu"
-        return True
-
-# Run the configuration function
-using_cpu_only = configure_jax_platform()
-
 import functools
-import os
-os.environ["JAX_PLATFORMS"] = "cpu"
+from config import configure_jax_platform
 import jax.numpy as jnp
 from jax import jit, random
 
